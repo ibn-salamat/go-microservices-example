@@ -8,6 +8,6 @@ import (
 const port = ":80"
 
 func main() {
-	fmt.Println("running on port %s", port)
+	fmt.Printf("running on port %s", port)
 	http.ListenAndServe(port, nil)
 }
