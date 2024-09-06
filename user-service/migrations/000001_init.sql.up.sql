@@ -1,6 +1,6 @@
 CREATE TABLE
     users (
-        id integer PRIMARY KEY,
+        id serial PRIMARY KEY,
         email varchar NOT NULL UNIQUE,
         username varchar NOT NULL UNIQUE
     );
