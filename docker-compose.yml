@@ -18,6 +18,33 @@ services:
       postgres:
         condition: service_healthy
 
+  order-service:
+    build: 
+      context: ./order-service
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:80"
+    environment:
+      PORT: ':80'
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_USERNAME: mongo
+      MONGO_PASSWORD: password
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  mongo:
+    image: 'mongo:4.2.16-bionic'
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: orders
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./db-data/mongo:/data/db
+  
   postgres:
     image: 'postgres:14.0'
     ports:
