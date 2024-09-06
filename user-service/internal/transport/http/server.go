@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"log"
 	"users/config"
 	"users/internal/repo"
@@ -21,9 +20,7 @@ func Start() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("hello", db)
-
-	repo := repo.New()
+	repo := repo.New(db)
 	service := service.New(repo)
 	handler := handler.New(service)
 	router := routes(handler)
