@@ -6,7 +6,6 @@ import (
 	"orders/internal/service"
 	"orders/internal/transport/http/handler/payload"
 	"orders/internal/transport/http/handler/response"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,15 +20,9 @@ type oh struct {
 }
 
 func (h oh) GetByID(c *gin.Context) {
-	idParam := c.Param("id")
-	if idParam == "" {
+	id := c.Param("id")
+	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errors.New("id is required")})
-		return
-	}
-
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

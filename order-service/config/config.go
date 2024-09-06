@@ -15,8 +15,8 @@ var (
 
 type Config struct {
 	MongoURL      string `envconfig:"MONGO_URL" required:"true"`
-	Port          string `envconfig:"PORT" default:":8080"`
-	MongoUsername string `envconfig:"MONGO_USERNAME" `
+	Port          string `envconfig:"PORT" default:":8081"`
+	MongoUsername string `envconfig:"MONGO_USERNAME" required:"true"`
 	MongoPassword string `envconfig:"MONGO_PASSWORD" required:"true"`
 }
 
