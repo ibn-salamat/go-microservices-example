@@ -15,7 +15,7 @@ var (
 
 type Config struct {
 	PgDSN string `envconfig:"PG_DSN" required:"true"`
-	Port  string `envconfig:"PORT" default:":8000"`
+	Port  string `envconfig:"PORT" default:":8080"`
 }
 
 func Load(filenames ...string) (Config, error) {
