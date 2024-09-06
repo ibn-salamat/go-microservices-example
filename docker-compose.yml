@@ -15,7 +15,8 @@ services:
       mode: replicated
       replicas: 1
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: 'postgres:14.0'
@@ -31,3 +32,8 @@ services:
       POSTGRES_DB: users
     volumes:
       - ./db-data/postgres/:/var/lib/postgresql/data/
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 5s
+      timeout: 5s
+      retries: 5
