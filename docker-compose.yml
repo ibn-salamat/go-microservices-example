@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   user-service:
@@ -64,3 +64,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  migrate:
+    image: migrate/migrate
+    container_name: migrate
+    volumes:
+      - ./user-service/migrations:/database
+    command:
+      ["-path", "/database", "-database", "postgres://postgres:password@postgres:5432/users?sslmode=disable", "up"]
+    depends_on:
+      postgres:
+        condition: service_healthy

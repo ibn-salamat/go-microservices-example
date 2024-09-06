@@ -14,3 +14,6 @@ migrate_down:
 
 migrate_create:
 	@migrate create -dir ${MIGRATIONS_DIR} -ext sql -seq ${name}
+
+migrate_version:
+	@migrate -path ${MIGRATIONS_DIR} -database ${DB_DSN} version
