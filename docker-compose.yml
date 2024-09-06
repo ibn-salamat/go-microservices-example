@@ -7,6 +7,9 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "8080:80"
+    environment:
+      PORT: ':80'
+      PG_DSN: 'postgres://postgres:password@postgres:5432/users?sslmode=disable'
     restart: always
     deploy:
       mode: replicated

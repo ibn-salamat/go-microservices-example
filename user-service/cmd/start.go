@@ -1,9 +1,9 @@
 package cmd
 
-import "users/internal/transport/http"
-
-const port = ":80"
+import (
+	"users/internal/transport/http"
+)
 
 func Start() {
-	http.Start(port)
+	http.Start()
 }
