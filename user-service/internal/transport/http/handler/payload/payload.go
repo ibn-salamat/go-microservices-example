@@ -1,7 +1,6 @@
-package response
+package payload
 
-type CreateUserResponse struct {
-	ID       int    `json:"id"  binding:"required"`
+type CreateUserPayload struct {
 	Email    string `json:"email"  binding:"required"`
 	Username string `json:"username"  binding:"required"`
 }

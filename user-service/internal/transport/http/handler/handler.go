@@ -22,7 +22,7 @@ func New(s service.Service) Handler {
 }
 
 func (h handler) User() UserHandler {
-	u := userHandler{
+	u := uh{
 		s: h.service.User(),
 	}
 	return u

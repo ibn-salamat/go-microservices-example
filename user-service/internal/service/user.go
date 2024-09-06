@@ -1,18 +1,24 @@
 package service
 
 import (
+	"users/internal/models"
 	"users/internal/repo"
+	"users/internal/transport/http/handler/payload"
 )
 
 type UserService interface {
-	Get() error
+	GetByID(id int) (*models.User, error)
+	Create(payload.CreateUserPayload) (*models.User, error)
 }
 
-type user struct {
+type us struct {
 	r repo.UserRepo
 }
 
-func (u user) Get() error {
-	u.r.Get()
-	return nil
+func (s us) GetByID(id int) (*models.User, error) {
+	return s.r.GetByID(id)
+}
+
+func (s us) Create(payload payload.CreateUserPayload) (*models.User, error) {
+	return s.r.Create(payload)
 }

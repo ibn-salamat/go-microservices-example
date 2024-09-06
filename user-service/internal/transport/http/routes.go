@@ -13,9 +13,10 @@ func routes(h handler.Handler) *gin.Engine {
 	api := router.Group("/")
 	api.GET("ping", h.Ping)
 	{
-		userApi := api.Group("/user")
+		userApi := api.Group("user")
 		{
-			userApi.GET("", h.User().Get)
+			userApi.GET(":id", h.User().GetByID)
+			userApi.POST("", h.User().Create)
 		}
 	}
 

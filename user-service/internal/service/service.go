@@ -17,7 +17,7 @@ func New(r repo.Repo) Service {
 }
 
 func (s service) User() UserService {
-	u := user{
+	u := us{
 		r: s.r.User(),
 	}
 	return u
