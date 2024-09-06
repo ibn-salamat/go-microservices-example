@@ -1,13 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"users/cmd"
 )
 
-const port = ":80"
-
 func main() {
-	fmt.Printf("running on port %s", port)
-	http.ListenAndServe(port, nil)
+	cmd.Start()
 }
