@@ -19,6 +19,7 @@ type server struct {
 }
 
 func Listen(conf config.Config, service service.Service) {
+	log.Printf("starting to listen gRPC server on %s", conf.GrpcPort)
 	lis, err := net.Listen("tcp", conf.GrpcPort)
 	if err != nil {
 		log.Fatalf("failed to listen gRPC: %v", err)
