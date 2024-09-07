@@ -5,6 +5,7 @@ import (
 	"users/config"
 	"users/internal/repo"
 	"users/internal/service"
+	"users/internal/transport/grpc"
 	"users/internal/transport/http"
 	"users/pkg/postgres"
 	"users/pkg/rmq"
@@ -29,5 +30,6 @@ func Start() {
 	repo := repo.New(db)
 	service := service.New(repo, rabbit)
 
+	go grpc.Listen(conf, service)
 	http.Start(conf, service)
 }

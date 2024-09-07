@@ -17,6 +17,7 @@ type Config struct {
 	PgDSN        string `envconfig:"PG_DSN" required:"true"`
 	RABBITMQ_URL string `envconfig:"RABBITMQ_URL" required:"true"`
 	Port         string `envconfig:"PORT" default:":8080"`
+	GrpcPort     string `envconfig:"GRPC_PORT" default:":50001"`
 }
 
 func Load(filenames ...string) (Config, error) {
