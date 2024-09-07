@@ -30,6 +30,7 @@ services:
       MONGO_URL: mongodb://mongo:27017
       MONGO_USERNAME: mongo
       MONGO_PASSWORD: password
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     restart: always
     deploy:
       mode: replicated
