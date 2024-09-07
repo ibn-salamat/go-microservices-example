@@ -26,8 +26,8 @@ func Start() {
 		log.Fatal(err)
 	}
 
-	repo := repo.New(db, rabbit)
-	service := service.New(repo)
+	repo := repo.New(db)
+	service := service.New(repo, rabbit)
 	handler := handler.New(service)
 	router := routes(handler)
 
