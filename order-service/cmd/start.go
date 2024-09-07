@@ -4,6 +4,7 @@ import (
 	"log"
 	"orders/config"
 	"orders/internal/repo"
+	"orders/internal/service"
 	"orders/internal/transport/http"
 	"orders/pkg/mongo"
 
@@ -27,11 +28,12 @@ func Start() {
 	}
 	defer conn.Close()
 
-	repo := repo.New(db, conn)
+	repo := repo.New(db)
+	service := service.New(repo, conn)
 
 	go func() {
-		repo.ListenRMQ()
+		service.ListenRMQ()
 	}()
 
-	http.Start(conf, repo)
+	http.Start(conf, service)
 }

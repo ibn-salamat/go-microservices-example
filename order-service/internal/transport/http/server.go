@@ -2,13 +2,11 @@ package http
 
 import (
 	"orders/config"
-	"orders/internal/repo"
 	"orders/internal/service"
 	"orders/internal/transport/http/handler"
 )
 
-func Start(conf config.Config, repo repo.Repo) {
-	service := service.New(repo)
+func Start(conf config.Config, service service.Service) {
 	handler := handler.New(service)
 	router := routes(handler)
 
