@@ -18,6 +18,7 @@ type Config struct {
 	Port          string `envconfig:"PORT" default:":8081"`
 	MongoUsername string `envconfig:"MONGO_USERNAME" required:"true"`
 	MongoPassword string `envconfig:"MONGO_PASSWORD" required:"true"`
+	RABBITMQ_URL  string `envconfig:"RABBITMQ_URL" required:"true"`
 }
 
 func Load(filenames ...string) (Config, error) {

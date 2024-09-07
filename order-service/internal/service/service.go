@@ -4,6 +4,7 @@ import "orders/internal/repo"
 
 type Service interface {
 	Order() OrderService
+	User() UserService
 }
 
 type service struct {
@@ -17,8 +18,16 @@ func New(r repo.Repo) Service {
 }
 
 func (s service) Order() OrderService {
+	o := os{
+		or: s.r.Order(),
+		ur: s.r.User(),
+	}
+	return o
+}
+
+func (s service) User() UserService {
 	u := us{
-		r: s.r.Order(),
+		ur: s.r.User(),
 	}
 	return u
 }
