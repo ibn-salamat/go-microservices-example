@@ -23,7 +23,7 @@ func New(s service.Service) Handler {
 
 func (h handler) Order() OrderHandler {
 	o := oh{
-		s: h.service.Order(),
+		s: h.service,
 	}
 	return o
 }

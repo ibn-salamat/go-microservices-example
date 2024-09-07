@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"orders/internal/service"
 	"orders/internal/transport/http/handler/payload"
@@ -16,7 +17,7 @@ type OrderHandler interface {
 }
 
 type oh struct {
-	s service.OrderService
+	s service.Service
 }
 
 func (h oh) GetByID(c *gin.Context) {
@@ -26,13 +27,24 @@ func (h oh) GetByID(c *gin.Context) {
 		return
 	}
 
-	order, err := h.s.GetByID(id)
+	order, user, err := h.s.Order().GetByID(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	content := (*response.CreateOrderResponse)(order)
+	fmt.Println(order)
+	fmt.Println(user)
+
+	content := response.GetOrderByIdResponse{
+		OrderId:   order.OrderId,
+		Quantity:  order.Quantity,
+		ProductId: order.ProductId,
+		UserId:    user.ID,
+		Email:     user.Email,
+		Username:  user.Username,
+	}
+
 	c.JSON(http.StatusBadRequest, gin.H{"success": true, "content": content})
 }
 
@@ -44,7 +56,7 @@ func (h oh) Create(c *gin.Context) {
 		return
 	}
 
-	order, err := h.s.Create(payload)
+	order, err := h.s.Order().Create(payload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

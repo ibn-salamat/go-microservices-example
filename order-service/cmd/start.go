@@ -5,6 +5,7 @@ import (
 	"orders/config"
 	"orders/internal/repo"
 	"orders/internal/service"
+	"orders/internal/transport/grpc"
 	"orders/internal/transport/http"
 	"orders/pkg/mongo"
 
@@ -28,8 +29,9 @@ func Start() {
 	}
 	defer conn.Close()
 
+	grpcClient := grpc.Connect(conf.GRPC_URL)
 	repo := repo.New(db)
-	service := service.New(repo, conn)
+	service := service.New(repo, conn, grpcClient)
 
 	go func() {
 		service.ListenRMQ()

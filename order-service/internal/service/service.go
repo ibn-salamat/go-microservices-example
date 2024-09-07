@@ -1,9 +1,12 @@
 package service
 
 import (
+	"context"
 	"encoding/json"
 	"log"
+	pb "orders/internal/proto"
 	"orders/internal/repo"
+	"orders/internal/transport/grpc/response"
 
 	"github.com/rabbitmq/amqp091-go"
 )
@@ -12,24 +15,28 @@ type Service interface {
 	Order() OrderService
 	User() UserService
 	ListenRMQ() error
+	GetByIDFromGRPC(userId int) (*response.GetUserByIdResponse, error)
 }
 
 type service struct {
-	r      repo.Repo
-	broker *amqp091.Connection
+	r          repo.Repo
+	broker     *amqp091.Connection
+	grpcClient pb.UserServiceClient
 }
 
-func New(r repo.Repo, broker *amqp091.Connection) Service {
+func New(r repo.Repo, broker *amqp091.Connection, grpcClient pb.UserServiceClient) Service {
 	return service{
-		r:      r,
-		broker: broker,
+		r:          r,
+		broker:     broker,
+		grpcClient: grpcClient,
 	}
 }
 
 func (s service) Order() OrderService {
 	o := os{
-		or: s.r.Order(),
-		ur: s.r.User(),
+		or:      s.r.Order(),
+		ur:      s.r.User(),
+		service: s,
 	}
 	return o
 }
@@ -87,4 +94,20 @@ func (s service) ListenRMQ() error {
 	}
 
 	return nil
+}
+
+func (s service) GetByIDFromGRPC(userId int) (*response.GetUserByIdResponse, error) {
+	request := &pb.GetUserByIdRequest{UserId: int32(userId)}
+	resp, err := s.grpcClient.GetUserById(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	user := response.GetUserByIdResponse{
+		Email:    resp.Email,
+		ID:       int(resp.UserId),
+		Username: resp.Username,
+	}
+
+	return &user, nil
 }

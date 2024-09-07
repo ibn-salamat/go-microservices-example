@@ -19,6 +19,7 @@ type Config struct {
 	MongoUsername string `envconfig:"MONGO_USERNAME" required:"true"`
 	MongoPassword string `envconfig:"MONGO_PASSWORD" required:"true"`
 	RABBITMQ_URL  string `envconfig:"RABBITMQ_URL" required:"true"`
+	GRPC_URL      string `envconfig:"GRPC_URL" required:"true"`
 }
 
 func Load(filenames ...string) (Config, error) {
