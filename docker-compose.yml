@@ -10,6 +10,7 @@ services:
     environment:
       PORT: ':80'
       PG_DSN: 'postgres://postgres:password@postgres:5432/users?sslmode=disable'
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     restart: always
     deploy:
       mode: replicated
@@ -75,3 +76,11 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./db-data/rabbitmq/:/var/lib/rabbitmq/

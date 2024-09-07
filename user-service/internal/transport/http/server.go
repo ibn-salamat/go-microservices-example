@@ -7,6 +7,7 @@ import (
 	"users/internal/service"
 	"users/internal/transport/http/handler"
 	"users/pkg/postgres"
+	"users/pkg/rmq"
 )
 
 func Start() {
@@ -20,7 +21,12 @@ func Start() {
 		log.Fatal(err)
 	}
 
-	repo := repo.New(db)
+	rabbit, err := rmq.Connect(conf.RABBITMQ_URL)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	repo := repo.New(db, rabbit)
 	service := service.New(repo)
 	handler := handler.New(service)
 	router := routes(handler)

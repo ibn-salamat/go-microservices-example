@@ -20,5 +20,12 @@ func (s us) GetByID(id int) (*models.User, error) {
 }
 
 func (s us) Create(payload payload.CreateUserPayload) (*models.User, error) {
-	return s.r.Create(payload)
+	user, err := s.r.Create(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	s.r.SendUserIDToBroker(user.ID)
+
+	return user, nil
 }
