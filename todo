@@ -1,1 +1,2 @@
 - CI/CD
+- different entrypoints for grpc and rmq
